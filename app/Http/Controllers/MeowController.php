@@ -2,18 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Meow;
+use App\Http\Requests\StoreMeowRequest;
+use App\Http\Requests\UpdateMeowRequest;
 
 class MeowController extends Controller
 {
-    public function allComments(): string
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        return view('meows-list');
+        //
     }
 
-    public function comment(string $id): string
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        return view('meow-details')
-            ->with('id', $id);
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreMeowRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Meow $meow)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Meow $meow)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateMeowRequest $request, Meow $meow)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Meow $meow)
+    {
+        //
     }
 }
