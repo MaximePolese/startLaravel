@@ -8,11 +8,12 @@ class MeowController extends Controller
 {
     public function allComments(): string
     {
-        return 'Liste des messages';
+        return view('meows-list');
     }
 
     public function comment(string $id): string
     {
-        return 'Message ' . $id;
+        return view('meow-details')
+            ->with('id', $id);
     }
 }
