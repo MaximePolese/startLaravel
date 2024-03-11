@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/meows', function () {
+    return 'Liste des messages';
+});
+Route::get('/meow/{id}', function (string $id) {
+    return 'Message ' . $id;
+});
