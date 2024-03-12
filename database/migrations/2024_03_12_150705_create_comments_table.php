@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('content', 300);
             $table->timestamps();
             $table->foreignUuid('meow_id')->references('id')->on('meows');
+            $table->foreignid('user_id')->references('id')->on('users');
         });
     }
 
