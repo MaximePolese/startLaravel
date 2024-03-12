@@ -17,7 +17,7 @@ class MeowFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'content' => fake()->sentence(15),
         ];
     }
 }
