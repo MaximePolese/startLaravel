@@ -13,7 +13,7 @@ class MeowPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class MeowPolicy
      */
     public function view(User $user, Meow $meow): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class MeowPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->isOwner();
     }
 
     /**
@@ -37,7 +37,7 @@ class MeowPolicy
      */
     public function update(User $user, Meow $meow): bool
     {
-        //
+        return $user->id === $meow->user_id;
     }
 
     /**
@@ -45,7 +45,7 @@ class MeowPolicy
      */
     public function delete(User $user, Meow $meow): bool
     {
-        //
+        return $user->isAdmin() || $user->id === $meow->user_id;
     }
 
     /**

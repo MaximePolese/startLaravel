@@ -20,7 +20,7 @@
                 <p>mis à jour le {{ $meow->updated_at }}</p>
                 @foreach ($meow->comments as $comment)
                     <div class="comment">
-                        <p>{{ $comment->user->name }}: {{ $comment->content }}</p>
+                        <p>{{ $comment->user->name }}: {{ $comment->content }}  {{ $comment->updated_at }}</p>
                     </div>
                 @endforeach
             </div>
