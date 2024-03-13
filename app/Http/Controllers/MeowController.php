@@ -17,7 +17,7 @@ class MeowController extends Controller
     public function index(): View
     {
         $meows = Meow::with('user', 'comments')->get();
-        return view('meows-list', compact('meows'));
+        return view('dashboard', compact('meows'));
     }
 
     /**
