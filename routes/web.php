@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'welcome']);
-Route::get('/meows', [MeowController::class, 'allComments']);
-Route::get('/meow/{id}',  [MeowController::class, 'comment']);
+Route::resource('/meows', MeowController::class);
+//Route::get('/meow/{id}',  [MeowController::class, 'show']);
