@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -29,7 +30,14 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $comment = new Comment;
+        $comment->content = $request->newcontent;
+        $comment->user_id = Auth::id();
+        // Assuming that the comment is associated with a "meow"
+        $comment->meow_id = $request->meow_id;
+        $comment->save();
+
+        return back()->with('status', 'Comment added');
     }
 
     /**
@@ -61,6 +69,12 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        if (Auth::id() !== $comment->user_id) {
+            return back()->with('error', 'You are not authorized to delete this comment');
+        }
+
+        $comment->delete();
+
+        return back()->with('status', 'Comment deleted');
     }
 }

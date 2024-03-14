@@ -10,15 +10,35 @@
                 @foreach ($meows as $meow)
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-xl m-3">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <h3>{{ $meow->user->name }}</h3>
-                            <p>{{ $meow->content }}</p>
-                            <p>mis à jour le {{ $meow->updated_at }}</p>
-                            @foreach ($meow->comments as $comment)
-                                <div class="comment">
-                                    <p>{{ $comment->user->name }}
-                                        : {{ $comment->content }}  {{ $comment->updated_at }}</p>
-                                </div>
-                            @endforeach
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-2xl text-yellow-600">{{ $meow->user->name }}</h3>
+                                <p class="text-xs text-gray-400">update at {{ $meow->updated_at }}</p>
+                            </div>
+                            <p>"{{ $meow->content }}"</p>
+                            <div class="flex flex-col mt-2">
+                                <h4>comments</h4>
+                                @foreach ($meow->comments as $comment)
+                                    <div class="flex items-center">
+                                        <p class="text-sm text-yellow-600">{{ $comment->user->name }}: </p>
+                                        <p class="text-sm pl-1">"{{ $comment->content }}"</p>
+                                        <p class="text-xs text-gray-400 pl-1">{{ $comment->updated_at }}</p>
+                                        <form method="POST" action="{{ route('comments.destroy', $comment) }}"
+                                              class="ml-auto">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="text-xs" type="submit">❌</button>
+                                        </form>
+                                    </div>
+                                @endforeach
+                                <form method="POST" action="{{ route('comments.store') }}" class="ml-auto mt-6">
+                                    @csrf
+                                    <label class="text-sm text-yellow-600">new comment
+                                        <input class="text-black w-300 h-6 rounded-full" type="text" name="newcontent"
+                                               required/>
+                                    </label>
+                                    <button type="submit">✅</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @endforeach
