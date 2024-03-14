@@ -28,13 +28,13 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request)
+    public function store(StoreCommentRequest $request): \Illuminate\Http\RedirectResponse
     {
         $comment = new Comment;
-        $comment->content = $request->newcontent;
+        $comment->content = $request->input('newcontent');
         $comment->user_id = Auth::id();
         // Assuming that the comment is associated with a "meow"
-        $comment->meow_id = $request->meow_id;
+        $comment->meow_id = $request->input('meow_id');
         $comment->save();
 
         return back()->with('status', 'Comment added');

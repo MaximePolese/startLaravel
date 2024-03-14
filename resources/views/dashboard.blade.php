@@ -35,6 +35,7 @@
                                     <label class="text-sm text-yellow-600">new comment
                                         <input class="text-black w-300 h-6 rounded-full" type="text" name="newcontent"
                                                required/>
+                                        <input type="hidden" name="meow_id" value="{{ $meow->id }}"/>
                                     </label>
                                     <button type="submit">✅</button>
                                 </form>
