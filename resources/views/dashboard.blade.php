@@ -23,14 +23,29 @@
                                         <p class="text-sm pl-1">"{{ $comment->content }}"</p>
                                         <p class="text-xs text-gray-400 pl-1">{{ $comment->updated_at }}</p>
                                         @if (Auth::id() === $comment->user_id)
-                                            <form method="POST" action="{{ route('comments.destroy', $comment->id) }}"
-                                                  class="ml-auto">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="text-xs" type="submit">❌</button>
-                                            </form>
+                                            <div class="flex ml-auto">
+                                                <a class="mr-1" href="#"
+                                                   data-target="edit-form-{{ $comment->id }}">✏️</a>
+
+                                                <form method="POST"
+                                                      action="{{ route('comments.destroy', $comment->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="text-xs" type="submit">❌</button>
+                                                </form>
+                                            </div>
                                         @endif
                                     </div>
+                                    <form id="edit-form-{{ $comment->id }}" method="POST"
+                                          action="{{ route('comments.update', $comment->id) }}"
+                                          class="hidden">
+                                        @csrf
+                                        @method('PUT')
+                                        <input class="text-black w-300 h-6 rounded-full" type="text"
+                                               name="newcontent" value="{{ $comment->content }}"
+                                               required/>
+                                        <button type="submit">✅</button>
+                                    </form>
                                 @endforeach
                                 <form method="POST" action="{{ route('comments.store') }}" class="ml-auto mt-6">
                                     @csrf
@@ -50,4 +65,18 @@
             @endif
         </div>
     </div>
+    <script>
+        document.querySelectorAll('[data-target]').forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                var form = document.getElementById(this.dataset.target);
+                if (form.classList.contains('hidden')) {
+                    form.classList.remove('hidden');
+                } else {
+                    form.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </x-app-layout>
+

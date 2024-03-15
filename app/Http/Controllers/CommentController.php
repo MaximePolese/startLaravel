@@ -34,8 +34,15 @@ class CommentController extends Controller
         $comment = new Comment;
         $comment->content = $request->input('newcontent');
         $comment->meow_id = $request->input('meow_id');
-        $comment->user_id = Auth::id();
-        $comment->save();
+        $user = Auth::user();
+        $user->comments()->save($comment);
+
+        //        $comment->user_id = Auth::id();
+        //        $comment->save();
+
+        //        $user->notes()->associate($note);
+        //        $user->comments()->associate($comment);
+        //        $user->save();
 
         return redirect()->route('dashboard')->with('status', 'Comment posted');
     }
@@ -59,9 +66,19 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCommentRequest $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, $id)
     {
-        //
+        $comment = Comment::find($id);
+
+        if (!$comment) {
+            return back()->with('error', 'Comment not found');
+        }
+
+        $comment->content = $request->input('newcontent');
+        $comment->updated_at = now();
+        $comment->save();
+
+        return redirect()->route('dashboard')->with('status', 'Comment updated');
     }
 
     /**
