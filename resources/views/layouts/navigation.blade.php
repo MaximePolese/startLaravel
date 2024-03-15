@@ -18,7 +18,7 @@
                     </x-nav-link>
                     <x-nav-link :href="route('logout')" :active="request()->routeIs('logout')">
                         <form method="POST" action="{{ route('logout') }}"
-                              onclick="event.preventDefault(); this.submit();">
+                              onclick="event.preventDefault(); if(confirm('Are you sure you want to log out?')) this.submit();">
                             @csrf
                             {{ __('Log out') }}
                         </form>
@@ -63,12 +63,10 @@
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}"
+                      onclick="event.preventDefault(); if(confirm('Are you sure you want to log out?')) this.submit();">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                                           onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <x-responsive-nav-link :href="route('logout')">
                         {{ __('Log out') }}
                     </x-responsive-nav-link>
                 </form>
