@@ -22,12 +22,14 @@
                                         <p class="text-sm text-yellow-600">{{ $comment->user->name }}: </p>
                                         <p class="text-sm pl-1">"{{ $comment->content }}"</p>
                                         <p class="text-xs text-gray-400 pl-1">{{ $comment->updated_at }}</p>
-                                        <form method="POST" action="{{ route('comments.destroy', $comment) }}"
-                                              class="ml-auto">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="text-xs" type="submit">❌</button>
-                                        </form>
+                                        @if (Auth::id() === $comment->user_id)
+                                            <form method="POST" action="{{ route('comments.destroy', $comment->id) }}"
+                                                  class="ml-auto">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="text-xs" type="submit">❌</button>
+                                            </form>
+                                        @endif
                                     </div>
                                 @endforeach
                                 <form method="POST" action="{{ route('comments.store') }}" class="ml-auto mt-6">

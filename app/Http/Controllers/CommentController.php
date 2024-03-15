@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
 {
@@ -28,16 +29,15 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCommentRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreCommentRequest $request): RedirectResponse
     {
         $comment = new Comment;
         $comment->content = $request->input('newcontent');
-        $comment->user_id = Auth::id();
-        // Assuming that the comment is associated with a "meow"
         $comment->meow_id = $request->input('meow_id');
+        $comment->user_id = Auth::id();
         $comment->save();
 
-        return back()->with('status', 'Comment added');
+        return redirect()->route('dashboard')->with('status', 'Comment posted');
     }
 
     /**
@@ -67,14 +67,20 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy($id): RedirectResponse
     {
+        $comment = Comment::find($id);
+
+        if (!$comment) {
+            return back()->with('error', 'Comment not found');
+        }
+
         if (Auth::id() !== $comment->user_id) {
             return back()->with('error', 'You are not authorized to delete this comment');
         }
 
         $comment->delete();
 
-        return back()->with('status', 'Comment deleted');
+        return redirect()->route('dashboard')->with('status', 'Comment deleted');
     }
 }
