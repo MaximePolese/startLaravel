@@ -20,8 +20,22 @@
                                 @foreach ($meow->comments as $comment)
                                     <div class="flex items-center">
                                         <p class="text-sm text-yellow-600">{{ $comment->user->name }}: </p>
-                                        <p class="text-sm pl-1">"{{ $comment->content }}"</p>
-                                        <p class="text-xs text-gray-400 pl-1">{{ $comment->updated_at }}</p>
+                                        <p id="content-p-{{ $comment->id }}" class="text-sm pl-1">
+                                            {{ $comment->content }}</p>
+                                        <form id="edit-form-{{ $comment->id }}" method="POST"
+                                              action="{{ route('comments.update', $comment->id) }}"
+                                              class="hidden">
+                                            @csrf
+                                            @method('PUT')
+                                            <input
+                                                class="border-none outline-none h-5 text-sm pl-1 bg-white dark:bg-gray-800 dark:text-gray-100"
+                                                type="text"
+                                                name="newcontent" value="{{ $comment->content }}"
+                                                required/>
+                                            <button type="submit">✅</button>
+                                        </form>
+                                        <p id="updated-at-p-{{ $comment->id }}"
+                                           class="text-xs text-gray-400 pl-1">{{ $comment->updated_at }}</p>
                                         @if (Auth::id() === $comment->user_id)
                                             <div class="flex ml-auto">
                                                 <a class="mr-1" href="#"
@@ -36,16 +50,6 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <form id="edit-form-{{ $comment->id }}" method="POST"
-                                          action="{{ route('comments.update', $comment->id) }}"
-                                          class="hidden">
-                                        @csrf
-                                        @method('PUT')
-                                        <input class="text-black w-300 h-6 rounded-full" type="text"
-                                               name="newcontent" value="{{ $comment->content }}"
-                                               required/>
-                                        <button type="submit">✅</button>
-                                    </form>
                                 @endforeach
                                 <form method="POST" action="{{ route('comments.store') }}" class="ml-auto mt-6">
                                     @csrf
@@ -70,10 +74,16 @@
             link.addEventListener('click', function (event) {
                 event.preventDefault();
                 var form = document.getElementById(this.dataset.target);
+                var contentP = document.getElementById('content-p-' + this.dataset.target.split('-')[2]);
+                var updatedAtP = document.getElementById('updated-at-p-' + this.dataset.target.split('-')[2]);
                 if (form.classList.contains('hidden')) {
                     form.classList.remove('hidden');
+                    contentP.classList.add('hidden');
+                    updatedAtP.classList.add('hidden');
                 } else {
                     form.classList.add('hidden');
+                    contentP.classList.remove('hidden');
+                    updatedAtP.classList.remove('hidden');
                 }
             });
         });

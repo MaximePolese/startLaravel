@@ -24,6 +24,7 @@
                         </form>
                     </x-nav-link>
                 </div>
+                <input type="checkbox" id="theme-toggler"/><label for="theme-toggler">Theme</label>
             </div>
 
             <!-- Hamburger -->
